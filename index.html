@@ -1,11 +1,141 @@
 <!DOCTYPE html>
 <html>
-  <head>
-   <title>The Practise Page</title>
-  </head>
-  <body>
-    <div>
-      <h1>Hello World!</h1>
-    </div>
-  </body>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="matTestV2.css">
+</head>
+
+<body onload="changePrice()">
+<div class="container">
+<header>
+   <h1>Välkommen till MatTest Version 2!</h1>
+</header>
+<nav>
+  <ul>
+  	<li>
+		<div id ="foodWrapper" class='row'>
+			<div class="inputTitle">
+				Maträtt:
+			</div>
+			<div class="inputBox">
+				<select  name="Maträtt" id="foodSelect" onchange="changePrice()">
+					<option value="" disabled selected>Meny</option>
+					<option value="Hamburgare">Hamburgare</option>
+					<option value="Pizza">Pizza</option>
+					<option value="Pastasallad">Pastasallad</option>
+					<option value="Kebab">Kebab</option>
+				</select> 
+			</div>
+		</div>
+	</li>
+    <li>
+		<div id ="nameWrapper" class='row'>
+			<div class="inputTitle">
+				Namn:
+			</div>
+			<div class="inputBox">
+				<input name="Namn" id="nameBox"></input>
+			</div>
+		</div>
+	</li>
+	<li>
+		<div id ="addressWrapper" class='row'>
+			<div class="inputTitle">
+				Adress:
+			</div>
+			<div class="inputBox">
+				<input name="Adress" id="addressBox"></input>
+			</div>
+		</div>
+	</li>
+	<li>
+		<div id ="phoneWrapper" class='row'>
+			<div class="inputTitle">
+				Telefonnummer:
+			</div>
+			<div class="inputBox">
+				<input name="Telefonnummer" id="phoneBox"></input>
+			</div>
+		</div>
+	</li>
+  </ul>
+  <div class="ralignPanel">
+	Att betala: 
+	<div id="pricePanel">
+	&nbsp;
+	</div>
+  </div>
+</nav>
+<article>
+	<div id='infoPanel'>Skriv in din information och beställ mat!</div>
+	<div id='errorPanel'></div>
+</article>
+</div>
+<div id="orderPanel">
+	<button id="orderButton" onclick="orderFood()">Beställ</button>
+</div>
+<script type="text/javascript">
+
+function checkInput(inputBox)
+{
+	if(inputBox.value != "")
+	{
+		inputBox.style.borderColor = "black";
+		return true;
+	}
+	else
+	{
+		errorPanel.innerHTML += "Du måste fylla i " + inputBox.name + "<br>";
+		inputBox.style.borderColor = "red";
+		return false;
+	}
+}
+
+function checkPhoneInput()
+{
+	var regex = /^\d{3}-?\d{3}-?\d{4}$/g;
+	
+    if (regex.test(phoneBox.value))
+	{
+		phoneBox.style.borderColor = "black";
+        return true;
+    }
+	else
+	{
+		errorPanel.innerHTML += "Du måste skriva ett giltigt telefonnummer";
+		phoneBox.style.borderColor = "red";
+        return false;
+    }
+}
+
+function clearErrorPanel()
+{
+	errorPanel.innerHTML = "";
+}
+
+function changePrice()
+{
+	var prices = {Hamburgare:55, Pizza:95, Kebab:55, Pastasallad:45};
+	var price = prices[foodSelect.value];
+	if(price !== undefined)
+	{
+		pricePanel.innerHTML = price + " kr";
+	}
+}
+
+function orderFood()
+{
+	clearErrorPanel();
+	var nameVerified = checkInput(nameBox);
+	var addressVerified = checkInput(addressBox);
+	var foodVerified = checkInput(foodSelect);
+	var phoneVerified = checkPhoneInput(phoneBox);
+	
+	if(nameVerified && addressVerified && foodVerified && phoneVerified)
+	{
+		window.location.href = 'result.html?name='+nameBox.value+"&food="+foodSelect.value+"&address="+addressBox.value;
+	}
+}
+</script>
+</body>
 </html>
