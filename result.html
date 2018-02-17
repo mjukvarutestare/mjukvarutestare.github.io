@@ -1,0 +1,57 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="matTest.css">
+<title>MatTestBeställning</title>
+</head>
+<body>
+
+<header class="resultHeader">
+   <h1 id='messageText'>Tack för din beställning!</h1>
+</header>
+
+<div id='orderResultPanel' class='resultPanel'>
+	<h1 id="nameText"></h1>
+	<h1 id="addressText"></h1>
+	<h1 id="foodText"></h1>
+	<h1 id="priceText"></h1>
+</div>
+
+<script type="text/javascript">
+
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") return;
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=", 2);
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+
+        if (!parms.hasOwnProperty(n)) parms[n] = [];
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+}
+
+function getPrice(food)
+{
+	var prices = {Hamburgare:65, Pizza:80, Kebab:55, Pastasallad:45}; 
+	return prices[food];
+}
+
+var params = parseURLParams(window.location.href);
+
+document.getElementById('nameText').innerHTML = params.name;
+document.getElementById('addressText').innerHTML = params.address;
+document.getElementById('foodText').innerHTML = params.food;
+document.getElementById('priceText').innerHTML = getPrice(params.food) + " kr";
+
+</script>
+</body>
+</html>
